@@ -1,192 +1,73 @@
-# GRC Risk Visibility Dashboard
+# React + TypeScript + Vite
 
-A modern, full-stack Governance, Risk & Compliance (GRC) platform for enterprise cyber risk management. Built with React, TypeScript, Node.js, and SQLite.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-![Dashboard Preview](./docs/dashboard-preview.png)
+Currently, two official plugins are available:
 
-## 🎯 Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **Risk Register Management**: CRUD operations for enterprise cyber risks
-- **Automated Risk Scoring**: Real-time calculation using Impact × Probability matrix
-- **Interactive Risk Heatmap**: 5×5 visualization with drill-down capability
-- **Framework Alignment**: Mapped to NIST CSF and ISO 27001:2022 Annex A
-- **Dashboard Analytics**: Executive-level risk visibility and metrics
-- **RESTful API**: Clean, documented API endpoints
+## React Compiler
 
-## 🛠️ Tech Stack
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-**Frontend:**
-- React 18 with TypeScript
-- Vite for build tooling
-- Tailwind CSS for styling
-- Recharts for data visualization
-- React Router for navigation
-- Axios for API communication
+## Expanding the ESLint configuration
 
-**Backend:**
-- Node.js with Express
-- TypeScript
-- SQLite3 (better-sqlite3)
-- RESTful API architecture
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 📋 Prerequisites
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-- Node.js 18+ 
-- npm or yarn
-- Git
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## 🚀 Installation & Setup
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/grc-risk-dashboard.git
-cd grc-risk-dashboard
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-### 2. Backend Setup
-```bash
-cd server
-npm install
-npm run seed    # Initialize database and seed data
-npm run dev     # Start backend server on port 3001
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-### 3. Frontend Setup
-```bash
-cd client
-npm install
-npm run dev     # Start frontend on port 5173
-```
-
-### 4. Access the Application
-Open browser: http://localhost:5173
-
-## 📊 Database Schema
-
-- **risks**: Core risk register with impact/probability scoring
-- **controls**: Control library with framework mappings
-- **risk_control_mapping**: Many-to-many relationship
-- **framework_references**: NIST CSF and ISO 27001 mappings
-
-## 🔌 API Endpoints
-
-### Risks
-- `GET /api/risks` - Get all risks (with filters)
-- `GET /api/risks/:id` - Get single risk
-- `POST /api/risks` - Create new risk
-- `PUT /api/risks/:id` - Update risk
-- `DELETE /api/risks/:id` - Delete risk
-
-### Dashboard
-- `GET /api/dashboard/stats` - Overall statistics
-- `GET /api/dashboard/heatmap` - Heatmap matrix data
-- `GET /api/dashboard/top-risks` - Top 10 risks
-- `GET /api/dashboard/category-breakdown` - Risk distribution
-
-## 📁 Project Structure
-```
-grc-risk-dashboard/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── services/      # API service layer
-│   │   ├── types/         # TypeScript interfaces
-│   │   └── utils/         # Utility functions
-├── server/                # Node.js backend
-│   ├── src/
-│   │   ├── config/        # Database configuration
-│   │   ├── controllers/   # Request handlers
-│   │   ├── models/        # Data models
-│   │   ├── routes/        # API routes
-│   │   └── utils/         # Seed data
-└── README.md
-```
-
-## 🎓 Learning Outcomes
-
-This project demonstrates:
-- Full-stack TypeScript development
-- RESTful API design
-- React hooks and state management
-- Database schema design
-- Data visualization with charts
-- Responsive UI design with Tailwind
-- Risk management methodologies (ISO 31000)
-- Compliance framework mapping (NIST CSF, ISO 27001)
-
-## 📝 Future Enhancements
-
-- [ ] Control library management UI
-- [ ] Risk-control mapping interface
-- [ ] User authentication & authorization
-- [ ] Advanced filtering and search
-- [ ] Export to PDF/CSV
-- [ ] Risk treatment workflow
-- [ ] Audit logging
-- [ ] Multi-tenant support
-
-## 👨‍💻 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Portfolio: [yourportfolio.com](https://yourportfolio.com)
-
-## 📄 License
-
-MIT License - see LICENSE file for details
-
-## 🙏 Acknowledgments
-
-- Inspired by enterprise GRC platforms (Eramba, ServiceNow GRC)
-- NIST Cybersecurity Framework
-- ISO/IEC 27001:2022 standard
-```
-
----
-
-### **Step 39: Create .gitignore**
-
-Create `.gitignore` in project root:
-```
-# Dependencies
-node_modules/
-*/node_modules/
-
-# Build output
-dist/
-build/
-*.tsbuildinfo
-
-# Database
-*.db
-*.db-journal
-
-# Environment variables
-.env
-.env.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# Testing
-coverage/
-.nyc_output/
-
-# Temporary files
-tmp/
-temp/
